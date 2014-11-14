@@ -1,0 +1,29 @@
+We are facing a network capture and a server python script.
+
+The server does the following actions: 
+
+server.py:
+# Opening of a secret message that we really want to acquire
+message = ''
+with open('message.txt', 'r') as f:
+  message = f.read()
+
+# Listening for a connection and asking for a public key, exponent and user_id. These information will be used to encrypt the secret message
+N, e, user_id = key.split(' ')
+
+# Calculation of a personnal message based on the user_id and RSA encryption with exponent and modulus
+encrypted = hex(pow(user_id * int(message.encode('hex'), 16) + (user_id**2), e, N))
+
+The encrypted message is then sent to the user. 
+
+The network data shows several requests of the m message with several public keys and user_ids. 
+We can quickly notice that two messages were requested with the same public key but different user_ids, the exponent e = 3. 
+
+Another noticeable thing is that messages are all related by a linear expression ( m1 = a*m2 + b )
+
+We are clearly in a scenario as described in the following paper, ensuring we can get the cleartext message from two encrypted computed with the same public key.
+https://www.cs.unc.edu/~reiter/papers/1996/Eurocrypt.pdf
+
+The implementation of the exploit can be found in "exploit.py".
+
+La trame reprend tout simplement plusieurs échanges entre le serveur et un client.
