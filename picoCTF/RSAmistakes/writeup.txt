@@ -25,5 +25,3 @@ We are clearly in a scenario as described in the following paper, ensuring we ca
 https://www.cs.unc.edu/~reiter/papers/1996/Eurocrypt.pdf
 
 The implementation of the exploit can be found in "exploit.py".
-
-La trame reprend tout simplement plusieurs échanges entre le serveur et un client.
